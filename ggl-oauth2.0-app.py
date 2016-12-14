@@ -3,7 +3,7 @@ import json
 import flask
 import httplib2
 
-from apiclient import discovery
+from googleapiclient import discovery
 from oauth2client import client
 
 
@@ -44,6 +44,5 @@ def oauth2callback():
 if __name__ == '__main__':
   import uuid
   app.secret_key = str(uuid.uuid4())
-  app.debug = False
+  app.debug = True
   app.run()
-  
