@@ -45,4 +45,4 @@ def oauth2callback():
 if __name__ == '__main__':
   import uuid
   app.secret_key = str(uuid.uuid4())
-  app.run(port=33507,debug=False)
+  app.run(port=33507,debug=True)
