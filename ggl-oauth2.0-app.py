@@ -14,13 +14,14 @@ app = flask.Flask(__name__)
 def index():
   if 'credentials' not in flask.session:
     return flask.redirect(flask.url_for('oauth2callback'))
-  credentials = client.OAuth2Credentials.from_json(flask.session['credentials'])
+    credentials = client.OAuth2Credentials.from_json(
+                                                  flask.session['credentials'])
   if credentials.access_token_expired:
     return flask.redirect(flask.url_for('oauth2callback'))
   else:
     http_auth = credentials.authorize(httplib2.Http())
-    drive_service = discovery.build('drive', 'v2', http_auth)
-    files = drive_service.files().list().execute()
+    calendar_service = discovery.build('calendar', 'v3', http_auth)
+    files = calendar_service.files().list().execute()
     return json.dumps(files)
 
 
@@ -28,9 +29,9 @@ def index():
 def oauth2callback():
   flow = client.flow_from_clientsecrets(
       'client_secrets.json',
-      scope='https://www.googleapis.com/auth/drive.metadata.readonly',
-      redirect_uri=flask.url_for('oauth2callback', _external=True),
-      include_granted_scopes=True)
+      scope='https://www.googleapis.com/auth/calendar.readonly',
+      redirect_uri=flask.url_for('oauth2callback', _external=True))# ,
+      # include_granted_scopes=True)
   if 'code' not in flask.request.args:
     auth_uri = flow.step1_get_authorize_url()
     return flask.redirect(auth_uri)
