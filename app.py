@@ -28,10 +28,10 @@ def index():
 @app.route('/oauth2callback')
 def oauth2callback():
   flow = client.flow_from_clientsecrets(
-      'client_secrets.json',
-      scope='https://www.googleapis.com/auth/calendar.readonly',
-      redirect_uri=flask.url_for('oauth2callback', _external=True))# ,
-      # include_granted_scopes=True)
+    'client_secrets.json',
+    scope='https://www.googleapis.com/auth/calendar.readonly',
+    redirect_uri=flask.url_for('oauth2callback', _external=True))# ,
+    # include_granted_scopes=True)
   if 'code' not in flask.request.args:
     auth_uri = flow.step1_get_authorize_url()
     return flask.redirect(auth_uri)
